@@ -22,11 +22,13 @@ export default function HomePage() {
         },
         body: JSON.stringify({ email })
       });
-
-      if (!response.ok) throw new Error('Submission failed');
-
-      setSubmitted(true);
-      setEmail('');
+  
+      if (response.ok) {
+        setSubmitted(true);
+        setEmail('');
+      } else {
+        throw new Error('Submission failed');
+      }
     } catch (error) {
       console.error('Form submission error:', error);
       setError('Something went wrong. Please try again.');
