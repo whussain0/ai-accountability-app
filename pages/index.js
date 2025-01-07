@@ -49,7 +49,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-16">
           <div className="text-center">
             <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
-              Meet Your AI Accountability Partner
+            Say Hello to PeakPath Your AI Accountability Partner
             </h1>
             <p className="text-lg sm:text-xl text-gray-900 mb-6 sm:mb-8 max-w-2xl mx-auto px-4 sm:px-0">
               Stay on track with your goals using personalized AI coaching that adapts to your needs, 
