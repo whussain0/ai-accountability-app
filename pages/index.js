@@ -15,16 +15,16 @@ export default function HomePage() {
     setIsLoading(true);
     
     try {
-      // Submit to Google Form with parameters in URL
-      await fetch(
-        `https://docs.google.com/forms/d/e/1FAIpQLScRPUOHLEOOpZnB1ZN3lT-SSJAIlhLr0M5Ovmi3y9PNTTpH_g/formResponse?entry.1608405667=${encodeURIComponent(email)}`,
-        {
-          method: 'POST',
-          mode: 'no-cors',
-        }
-      );
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email })
+      });
 
-      console.log('Form submitted with email:', email);
+      if (!response.ok) throw new Error('Submission failed');
+
       setSubmitted(true);
       setEmail('');
     } catch (error) {
