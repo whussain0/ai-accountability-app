@@ -40,7 +40,7 @@ export default function HomePage() {
   return (
     <>
       <Head>
-        <title>AI Accountability Partner</title>
+        <title>Say Hello to PeakPath, Your AI Accountability Partner</title>
         <meta name="description" content="Stay on track with your goals using personalized AI coaching" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
