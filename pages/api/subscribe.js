@@ -10,14 +10,12 @@ const token = process.env.AIRTABLE_TOKEN;
 console.log('Airtable Config:', {
   baseId,
   tableId,
-  hasToken: !!token,
+  hasToken: !!token
 });
 
 const base = new Airtable({
   apiKey: token
 }).base(baseId);
-
-const table = base(tableId);
 
 export default async function handler(req, res) {
   // Set CORS headers
@@ -37,28 +35,20 @@ export default async function handler(req, res) {
       // Log received data
       console.log('Attempting to create record with:', {
         email,
-        timestamp: new Date().toISOString(),
-        configuration: {
-          baseId,
-          tableId,
-          hasToken: !!token
+        timestamp: new Date().toISOString()
+      });
+
+      // Create record in Airtable with proper format
+      await base(tableId).create({
+        fields: {
+          'Email Address': email,
+          'Time Stamp': new Date().toISOString()
         }
       });
 
-      // Create record in Airtable
-      const createdRecords = await table.create([
-        {
-          fields: {
-            'Email Address': email,
-            'Time Stamp': new Date().toISOString()
-          }
-        }
-      ]);
-
-      console.log('Successfully created record:', createdRecords);
+      console.log('Successfully created record');
       return res.status(200).json({ 
-        message: 'Subscription successful',
-        recordId: createdRecords[0].id
+        message: 'Subscription successful'
       });
     } catch (error) {
       // Detailed error logging
