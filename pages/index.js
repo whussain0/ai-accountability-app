@@ -15,40 +15,18 @@ export default function HomePage() {
     setIsLoading(true);
     
     try {
-      // Google Form submission URL
-      const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScRPUOHLEOOpZnB1ZN3lT-SSJAIlhLr0M5Ovmi3y9PNTTpH_g/formResponse';
-      
-      // Create form data exactly as Google expects it
-      const formData = new FormData();
-      formData.append('entry.1608405667', email);
-      formData.append('fvv', '1');
-      formData.append('draftResponse', '[]');
-      formData.append('pageHistory', '0');
-      formData.append('fbzx', '-4018294051299872443');
-
-      // Submit using iframe to avoid CORS
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = formUrl;
-      form.target = '_blank';
-
-      // Add form data as hidden inputs
-      for (let [key, value] of formData.entries()) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = value;
-        form.appendChild(input);
-      }
-
-      // Add form to document, submit it, and remove it
-      document.body.appendChild(form);
-      form.submit();
-      document.body.removeChild(form);
+      const response = await fetch('https://script.google.com/macros/s/AKfycbyy1iyrkWYmeN1hnuG3QIVQx70eCWvsBNXJc4PayQYEhib7LKxJI1eDSe6mY8F2okCYtA/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          'email': email
+        })
+      });
 
       console.log('Form submitted with email:', email);
-      
-      // Show success state
       setSubmitted(true);
       setEmail('');
     } catch (error) {
