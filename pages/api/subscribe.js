@@ -38,15 +38,13 @@ export default async function handler(req, res) {
         timestamp: new Date().toISOString()
       });
 
-      // Create record in Airtable with proper format
-      await base(tableId).create({
-        fields: {
-          'Email Address': email,
-          'Time Stamp': new Date().toISOString()
-        }
+      // Create record in Airtable
+      const record = await base(tableId).create({
+        'Email Address': email,
+        'Time Stamp': new Date().toISOString()
       });
 
-      console.log('Successfully created record');
+      console.log('Successfully created record:', record);
       return res.status(200).json({ 
         message: 'Subscription successful'
       });
