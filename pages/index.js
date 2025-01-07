@@ -1,114 +1,128 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
+// pages/index.js
+import React, { useState, useEffect } from 'react';
+import { CheckCircle, Target, Brain, Star, Loader } from 'lucide-react';
+import Head from 'next/head';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+export default function HomePage() {
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
+    
+    try {
+      // For now, just simulate an API call
+      await new Promise(resolve => setTimeout(resolve, 800));
+      setSubmitted(true);
+      setEmail('');
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-export default function Home() {
   return (
-    <div
-      className={`${geistSans.variable} ${geistMono.variable} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              pages/index.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <>
+      <Head>
+        <title>AI Accountability Partner</title>
+        <meta name="description" content="Stay on track with your goals using personalized AI coaching" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-16">
+          <div className="text-center">
+            <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
+              Meet Your AI Accountability Partner
+            </h1>
+            <p className="text-lg sm:text-xl text-gray-800 mb-6 sm:mb-8 max-w-2xl mx-auto px-4 sm:px-0">
+              Stay on track with your goals using personalized AI coaching that adapts to your needs, 
+              provides meaningful accountability, and helps you achieve what matters most.
+            </p>
+            
+            <div className="max-w-md mx-auto mb-8 sm:mb-12 px-4 sm:px-0">
+              {!submitted ? (
+                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Enter your email for early access"
+                      className="flex-1 px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      required
+                      disabled={isLoading}
+                    />
+                    <button
+                      type="submit"
+                      disabled={isLoading}
+                      className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-blue-400 disabled:cursor-not-allowed flex items-center justify-center min-w-[120px]"
+                    >
+                      {isLoading ? (
+                        <Loader className="w-5 h-5 animate-spin" />
+                      ) : (
+                        'Join Waitlist'
+                      )}
+                    </button>
+                  </div>
+                  {error && (
+                    <div className="text-red-600 text-sm bg-red-50 p-2 rounded">{error}</div>
+                  )}
+                </form>
+              ) : (
+                <div className="bg-green-50 text-green-600 font-medium text-lg py-3 px-4 rounded-lg">
+                  <CheckCircle className="w-6 h-6 inline-block mr-2 mb-1" />
+                  Thanks! We'll notify you when we launch.
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 mt-8 sm:mt-16 px-4 sm:px-0">
+            {[
+              {
+                icon: Brain,
+                title: "AI-Powered Insights",
+                description: "Smart goal tracking that learns your patterns and provides personalized strategies for success."
+              },
+              {
+                icon: Target,
+                title: "Adaptive Check-ins",
+                description: "Natural conversations that adjust to your schedule and motivation levels."
+              },
+              {
+                icon: CheckCircle,
+                title: "Progress Tracking",
+                description: "Visual insights and milestone celebrations to keep you motivated."
+              },
+              {
+                icon: Star,
+                title: "Personalized Experience",
+                description: "Your AI partner adapts its approach based on what works best for you."
+              }
+            ].map((feature, index) => (
+              <div 
+                key={index}
+                className="p-4 sm:p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div className="flex items-center mb-4">
+                  <feature.icon className="w-6 sm:w-8 h-6 sm:h-8 text-blue-600 mr-3 flex-shrink-0" />
+                  <h3 className="text-lg sm:text-xl font-semibold">{feature.title}</h3>
+                </div>
+                <p className="text-gray-800 text-sm sm:text-base">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+    </>
   );
 }
