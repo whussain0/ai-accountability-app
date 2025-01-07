@@ -113,9 +113,8 @@ export default function HomePage() {
               >
                 <div className="flex items-center mb-4">
                   <feature.icon className="w-6 sm:w-8 h-6 sm:h-8 text-blue-600 mr-3 flex-shrink-0" />
-                  <h3 className="text-lg sm:text-xl font-semibold">{feature.title}</h3>
-                </div>
-                <p className="text-gray-800 text-sm sm:text-base">
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900">{feature.title}</h3>                </div>
+                <p className="text-gray-900 text-sm sm:text-base">
                   {feature.description}
                 </p>
               </div>
