@@ -15,8 +15,26 @@ export default function HomePage() {
     setIsLoading(true);
     
     try {
-      // For now, just simulate an API call
-      await new Promise(resolve => setTimeout(resolve, 800));
+      // Convert FormData to URL encoded string
+      const data = new URLSearchParams();
+      data.append('entry.1608405667', email);
+
+      // Submit to Google Form
+      await fetch(
+        'https://docs.google.com/forms/d/e/1FAIpQLScRPUOHLEOOpZnB1ZN3lT-SSJAIlhLr0M5Ovmi3y9PNTTpH_g/formResponse',
+        {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: data.toString()
+        }
+      );
+
+      // Add console log to verify submission attempt
+      console.log('Form submitted with email:', email);
+
       setSubmitted(true);
       setEmail('');
     } catch (error) {
@@ -41,7 +59,7 @@ export default function HomePage() {
             <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
               Meet Your AI Accountability Partner
             </h1>
-            <p className="text-lg sm:text-xl text-gray-800 mb-6 sm:mb-8 max-w-2xl mx-auto px-4 sm:px-0">
+            <p className="text-lg sm:text-xl text-gray-900 mb-6 sm:mb-8 max-w-2xl mx-auto px-4 sm:px-0">
               Stay on track with your goals using personalized AI coaching that adapts to your needs, 
               provides meaningful accountability, and helps you achieve what matters most.
             </p>
@@ -113,7 +131,8 @@ export default function HomePage() {
               >
                 <div className="flex items-center mb-4">
                   <feature.icon className="w-6 sm:w-8 h-6 sm:h-8 text-blue-600 mr-3 flex-shrink-0" />
-                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900">{feature.title}</h3>                </div>
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900">{feature.title}</h3>
+                </div>
                 <p className="text-gray-900 text-sm sm:text-base">
                   {feature.description}
                 </p>
