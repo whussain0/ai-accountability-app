@@ -15,18 +15,22 @@ export default function HomePage() {
     setIsLoading(true);
     
     try {
-      const response = await fetch('https://script.google.com/macros/s/AKfycbyy1iyrkWYmeN1hnuG3QIVQx70eCWvsBNXJc4PayQYEhib7LKxJI1eDSe6mY8F2okCYtA/exec', {
+      // Create FormData object
+      const formData = new FormData();
+      formData.append('entry.1608405667', email);
+
+      // Submit to Google Form
+      await fetch('https://docs.google.com/forms/d/e/1FAIpQLScRPUOHLEOOpZnB1ZN3lT-SSJAIlhLr0M5Ovmi3y9PNTTpH_g/formResponse', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: new URLSearchParams({
-          'email': email
-        })
+        body: new URLSearchParams(formData)
       });
 
       console.log('Form submitted with email:', email);
+      
       setSubmitted(true);
       setEmail('');
     } catch (error) {
