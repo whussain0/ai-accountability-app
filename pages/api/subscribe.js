@@ -43,7 +43,6 @@ export default async function handler(req, res) {
         {
           fields: {
             'Email': email,
-            'Timestamp': new Date().toISOString()
           }
         }
       ]);
