@@ -15,22 +15,16 @@ export default function HomePage() {
     setIsLoading(true);
     
     try {
-      // Create FormData object
-      const formData = new FormData();
-      formData.append('entry.1608405667', email);
-
-      // Submit to Google Form
-      await fetch('https://docs.google.com/forms/d/e/1FAIpQLScRPUOHLEOOpZnB1ZN3lT-SSJAIlhLr0M5Ovmi3y9PNTTpH_g/formResponse', {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams(formData)
-      });
+      // Submit to Google Form with parameters in URL
+      await fetch(
+        `https://docs.google.com/forms/d/e/1FAIpQLScRPUOHLEOOpZnB1ZN3lT-SSJAIlhLr0M5Ovmi3y9PNTTpH_g/formResponse?entry.1608405667=${encodeURIComponent(email)}`,
+        {
+          method: 'POST',
+          mode: 'no-cors',
+        }
+      );
 
       console.log('Form submitted with email:', email);
-      
       setSubmitted(true);
       setEmail('');
     } catch (error) {
